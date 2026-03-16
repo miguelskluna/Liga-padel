@@ -2,27 +2,84 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liga Padel Pro - EA Sports Style</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0F0F1A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Liga Padel Pro">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Liga Padel Pro">
+    <meta name="msapplication-TileColor" content="#0F0F1A">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="Liga Profesional de Pádel - Estadísticas, Rankings y Gestión de Equipos">
+    <meta name="keywords" content="padel, liga, deportes, rankings, estadísticas">
+    <meta name="author" content="Liga Padel Pro">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Liga Padel Pro - EA Sports Style">
+    <meta property="og:description" content="La plataforma definitiva para gestionar tu liga de pádel">
+    <meta property="og:image" content="https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Liga Padel Pro">
+    <meta name="twitter:description" content="La plataforma definitiva para gestionar tu liga de pádel">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🎾</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><text y='140' font-size='140'>🎾</text></svg>">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/manifest+json,{
+        &quot;name&quot;: &quot;Liga Padel Pro&quot;,
+        &quot;short_name&quot;: &quot;Padel Pro&quot;,
+        &quot;description&quot;: &quot;Liga Profesional de Pádel&quot;,
+        &quot;start_url&quot;: &quot;/&quot;,
+        &quot;display&quot;: &quot;standalone&quot;,
+        &quot;background_color&quot;: &quot;#0F0F1A&quot;,
+        &quot;theme_color&quot;: &quot;#00D4AA&quot;,
+        &quot;orientation&quot;: &quot;portrait&quot;,
+        &quot;icons&quot;: [{
+            &quot;src&quot;: &quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><text y='150' font-size='150'>🎾</text></svg>&quot;,
+            &quot;sizes&quot;: &quot;192x192&quot;,
+            &quot;type&quot;: &quot;image/svg+xml&quot;
+        }]
+    }">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>Liga Padel Pro - EA Sports Style</title>
+    
     <style>
+        /* ============================================
+           CSS VARIABLES & RESET
+           ============================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         :root {
             --primary: #00D4AA;
             --primary-dark: #00B894;
+            --primary-light: #00E5B8;
             --secondary: #1A1A2E;
             --accent: #FD79A8;
             --gold: #FFD700;
             --silver: #C0C0C0;
             --bronze: #CD7F32;
             --background: #0F0F1A;
+            --background-light: #1A1A2E;
             --card-bg: #16162A;
             --card-border: #2A2A4A;
             --text-primary: #FFFFFF;
@@ -37,6 +94,16 @@
             --shadow: 0 4px 20px rgba(0, 212, 170, 0.15);
             --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.4);
             --glow: 0 0 20px rgba(0, 212, 170, 0.5);
+            --safe-area-top: env(safe-area-inset-top, 0px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-area-left: env(safe-area-inset-left, 0px);
+            --safe-area-right: env(safe-area-inset-right, 0px);
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
@@ -46,30 +113,67 @@
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
+            overscroll-behavior-y: contain;
         }
 
-        .app-container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: var(--gradient-dark);
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 80px;
-        }
-
-        /* Animated Background */
-        .bg-animation {
+        /* ============================================
+           LOADER STYLES
+           ============================================ */
+        .loader-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 9999;
+            background: var(--gradient-dark);
+        }
+
+        .loader-wrapper.hidden {
+            opacity: 0;
             pointer-events: none;
-            z-index: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
             overflow: hidden;
         }
 
-        .bg-particle {
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .bg-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
             position: absolute;
             width: 4px;
             height: 4px;
@@ -86,11 +190,326 @@
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Header */
+        .main-logo {
+            position: relative;
+            z-index: 10;
+            margin-bottom: 40px;
+            animation: logoPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            box-shadow: var(--glow);
+            margin: 0 auto 20px;
+        }
+
+        .logo-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sponsor-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 400px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .sponsor-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sponsor-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sponsor-slide.exit {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        .sponsor-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .sponsor-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .sponsor-tagline {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 280px;
+        }
+
+        .sponsor-industry {
+            font-size: 10px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+            padding: 4px 12px;
+            background: rgba(0, 212, 170, 0.1);
+            border-radius: 15px;
+        }
+
+        .progress-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--card-border);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .progress-glow {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: var(--gradient-primary);
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .progress-percentage {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .loading-dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--card-border);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            box-shadow: var(--glow);
+            transform: scale(1.3);
+        }
+
+        .skip-btn {
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            border-radius: 25px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .skip-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .sponsor-1 .sponsor-logo { background: linear-gradient(135deg, #00D4AA 0%, #00B894 100%); }
+        .sponsor-2 .sponsor-logo { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
+        .sponsor-3 .sponsor-logo { background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%); }
+        .sponsor-4 .sponsor-logo { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+        .sponsor-5 .sponsor-logo { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
+
+        .enter-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+
+        .enter-animation.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .enter-logo {
+            width: 150px;
+            height: 150px;
+            background: var(--gradient-primary);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            box-shadow: var(--glow);
+            animation: enterPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes enterPulse {
+            0%, 100% { transform: scale(1); box-shadow: var(--glow); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(0, 212, 170, 0.8); }
+        }
+
+        /* ============================================
+           APP CONTAINER - RESPONSIVE
+           ============================================ */
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--gradient-dark);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: calc(80px + var(--safe-area-bottom));
+            padding-top: var(--safe-area-top);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .app-container.loaded {
+            opacity: 1;
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                min-height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            .main-layout {
+                display: grid;
+                grid-template-columns: 280px 1fr;
+                min-height: 100vh;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 280px;
+                height: 100vh;
+                background: var(--card-bg);
+                border-right: 1px solid var(--card-border);
+                padding: 20px;
+                z-index: 100;
+            }
+            
+            .main-content {
+                margin-left: 280px;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .app-container {
+                max-width: 100%;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .players-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
         .header {
             background: rgba(22, 22, 42, 0.95);
             backdrop-filter: blur(20px);
-            padding: 15px 20px;
+            -webkit-backdrop-filter: blur(20px);
+            padding: calc(15px + var(--safe-area-top)) 20px 15px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -110,7 +529,7 @@
             gap: 10px;
         }
 
-        .logo-icon {
+        .logo-icon-small {
             width: 40px;
             height: 40px;
             background: var(--gradient-primary);
@@ -120,16 +539,18 @@
             justify-content: center;
             font-size: 20px;
             box-shadow: var(--glow);
+            flex-shrink: 0;
         }
 
-        .logo-text {
+        .logo-text-small {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 20px;
+            font-size: clamp(16px, 4vw, 20px);
             font-weight: 700;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            white-space: nowrap;
         }
 
         .header-actions {
@@ -149,6 +570,7 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .icon-btn:hover {
@@ -163,11 +585,13 @@
             align-items: center;
             padding: 10px 0;
             border-top: 1px solid var(--card-border);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .league-name {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -179,15 +603,20 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            white-space: nowrap;
         }
 
-        /* Navigation Tabs */
+        /* ============================================
+           NAVIGATION TABS
+           ============================================ */
         .nav-tabs {
             display: flex;
             gap: 5px;
             padding: 15px 20px;
             overflow-x: auto;
             scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-snap-type: x mandatory;
         }
 
         .nav-tabs::-webkit-scrollbar {
@@ -205,6 +634,7 @@
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.3s ease;
+            scroll-snap-align: start;
         }
 
         .nav-tab:hover {
@@ -218,17 +648,18 @@
             color: var(--secondary);
         }
 
-        /* Main Content */
+        /* ============================================
+           MAIN CONTENT
+           ============================================ */
         .content {
             padding: 20px;
             position: relative;
             z-index: 1;
         }
 
-        /* Section Title */
         .section-title {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 18px;
+            font-size: clamp(16px, 4vw, 18px);
             font-weight: 700;
             margin-bottom: 15px;
             display: flex;
@@ -242,9 +673,12 @@
             height: 20px;
             background: var(--gradient-primary);
             border-radius: 2px;
+            flex-shrink: 0;
         }
 
-        /* Live Match Card */
+        /* ============================================
+           LIVE MATCH CARD
+           ============================================ */
         .live-match-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -296,6 +730,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            gap: 10px;
         }
 
         .match-player {
@@ -307,44 +742,42 @@
         }
 
         .match-player-avatar {
-            width: 70px;
-            height: 70px;
+            width: clamp(50px, 15vw, 70px);
+            height: clamp(50px, 15vw, 70px);
             border-radius: 50%;
             background: var(--gradient-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: clamp(18px, 5vw, 24px);
             font-weight: 700;
             color: var(--secondary);
             border: 3px solid var(--card-border);
             overflow: hidden;
-        }
-
-        .match-player-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            flex-shrink: 0;
         }
 
         .match-player-name {
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
             font-weight: 600;
             text-align: center;
+            word-break: break-word;
         }
 
         .match-player-position {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-secondary);
             text-transform: uppercase;
+            text-align: center;
         }
 
         .vs-divider {
-            padding: 0 20px;
+            padding: 0 15px;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 20px;
+            font-size: clamp(16px, 4vw, 20px);
             font-weight: 700;
             color: var(--text-secondary);
+            flex-shrink: 0;
         }
 
         .match-score {
@@ -359,7 +792,7 @@
             padding: 10px 20px;
             border-radius: 10px;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 24px;
+            font-size: clamp(20px, 5vw, 24px);
             font-weight: 700;
             min-width: 50px;
             text-align: center;
@@ -376,14 +809,8 @@
             align-items: center;
             padding-top: 15px;
             border-top: 1px solid var(--card-border);
-        }
-
-        .match-location {
-            font-size: 12px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .btn-reserve {
@@ -396,6 +823,7 @@
             font-size: 13px;
             cursor: pointer;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .btn-reserve:hover {
@@ -403,12 +831,20 @@
             box-shadow: var(--glow);
         }
 
-        /* Stats Cards Grid */
+        /* ============================================
+           STATS CARDS GRID
+           ============================================ */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .stat-card {
@@ -443,25 +879,28 @@
 
         .stat-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 32px;
+            font-size: clamp(24px, 6vw, 32px);
             font-weight: 700;
             margin-bottom: 5px;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        /* Leaderboard Table */
+        /* ============================================
+           LEADERBOARD TABLE
+           ============================================ */
         .leaderboard-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 20px;
+            overflow-x: auto;
         }
 
         .leaderboard-header {
@@ -482,6 +921,7 @@
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 500px;
         }
 
         .leaderboard-table th {
@@ -492,11 +932,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             border-bottom: 1px solid var(--card-border);
+            white-space: nowrap;
         }
 
         .leaderboard-table td {
             padding: 15px;
             border-bottom: 1px solid var(--card-border);
+            white-space: nowrap;
         }
 
         .leaderboard-table tr:last-child td {
@@ -533,6 +975,7 @@
             align-items: center;
             justify-content: center;
             font-size: 16px;
+            flex-shrink: 0;
         }
 
         .team-name {
@@ -553,7 +996,9 @@
             color: var(--primary);
         }
 
-        /* MVP Card */
+        /* ============================================
+           MVP CARD
+           ============================================ */
         .mvp-card {
             background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%);
             border: 1px solid rgba(255, 215, 0, 0.3);
@@ -578,6 +1023,7 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .mvp-badge {
@@ -588,6 +1034,7 @@
             font-weight: 700;
             color: var(--secondary);
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .mvp-avatar {
@@ -601,11 +1048,12 @@
             font-size: 24px;
             font-weight: 700;
             color: var(--secondary);
+            flex-shrink: 0;
         }
 
         .mvp-name {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 20px;
+            font-size: clamp(18px, 4vw, 20px);
             font-weight: 700;
         }
 
@@ -617,6 +1065,7 @@
         .mvp-stats {
             display: flex;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .mvp-stat {
@@ -625,7 +1074,7 @@
 
         .mvp-stat-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 24px;
+            font-size: clamp(20px, 5vw, 24px);
             font-weight: 700;
             color: var(--gold);
         }
@@ -636,7 +1085,9 @@
             text-transform: uppercase;
         }
 
-        /* Team Card */
+        /* ============================================
+           TEAM CARD
+           ============================================ */
         .team-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -656,11 +1107,13 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .team-name-card {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 18px;
+            font-size: clamp(16px, 4vw, 18px);
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -675,10 +1128,12 @@
         .team-players {
             display: flex;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .team-player {
             flex: 1;
+            min-width: 120px;
             text-align: center;
         }
 
@@ -723,11 +1178,25 @@
             color: var(--primary);
         }
 
-        /* Player Profile Cards - Grid */
+        /* ============================================
+           PLAYER PROFILE CARDS
+           ============================================ */
         .players-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .players-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .players-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .player-card {
@@ -882,13 +1351,16 @@
             color: var(--accent);
         }
 
-        /* Filter Tabs */
+        /* ============================================
+           FILTER TABS
+           ============================================ */
         .filter-tabs {
             display: flex;
             gap: 5px;
             margin-bottom: 15px;
             overflow-x: auto;
             scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         .filter-tabs::-webkit-scrollbar {
@@ -919,21 +1391,30 @@
             color: var(--secondary);
         }
 
-        /* Bottom Navigation */
+        /* ============================================
+           BOTTOM NAVIGATION
+           ============================================ */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 480px;
+            max-width: 1400px;
             background: rgba(22, 22, 42, 0.95);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid var(--card-border);
-            padding: 10px 20px;
+            padding: calc(10px + var(--safe-area-bottom)) 20px 10px;
             display: flex;
             justify-content: space-around;
             z-index: 100;
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav {
+                display: none;
+            }
         }
 
         .nav-item {
@@ -969,11 +1450,13 @@
             letter-spacing: 0.5px;
         }
 
-        /* Floating Action Button */
+        /* ============================================
+           FLOATING ACTION BUTTON
+           ============================================ */
         .fab {
             position: fixed;
-            bottom: 90px;
-            right: calc(50% - 220px);
+            bottom: calc(90px + var(--safe-area-bottom));
+            right: calc(20px + var(--safe-area-right));
             width: 56px;
             height: 56px;
             background: var(--gradient-primary);
@@ -989,11 +1472,20 @@
             z-index: 99;
         }
 
+        @media (min-width: 768px) {
+            .fab {
+                bottom: 30px;
+                right: 30px;
+            }
+        }
+
         .fab:hover {
             transform: scale(1.1) rotate(90deg);
         }
 
-        /* Page Sections */
+        /* ============================================
+           PAGE SECTIONS
+           ============================================ */
         .page-section {
             display: none;
         }
@@ -1002,7 +1494,9 @@
             display: block;
         }
 
-        /* Animations */
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1023,10 +1517,12 @@
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
 
-        /* Toast Notification */
+        /* ============================================
+           TOAST NOTIFICATION
+           ============================================ */
         .toast {
             position: fixed;
-            bottom: 100px;
+            bottom: calc(100px + var(--safe-area-bottom));
             left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: var(--primary);
@@ -1038,6 +1534,8 @@
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 1000;
+            max-width: 90%;
+            text-align: center;
         }
 
         .toast.show {
@@ -1045,18 +1543,9 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            .app-container {
-                max-width: 100%;
-            }
-            
-            .fab {
-                right: 20px;
-            }
-        }
-
-        /* Modal */
+        /* ============================================
+           MODAL
+           ============================================ */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1069,6 +1558,8 @@
             justify-content: center;
             z-index: 1000;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
         }
 
         .modal-overlay.active {
@@ -1080,7 +1571,7 @@
             border: 1px solid var(--card-border);
             border-radius: 25px;
             max-width: 450px;
-            width: 90%;
+            width: 100%;
             max-height: 90vh;
             overflow-y: auto;
             animation: modalIn 0.3s ease;
@@ -1118,6 +1609,9 @@
             cursor: pointer;
             font-size: 20px;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-close:hover {
@@ -1145,7 +1639,7 @@
 
         .modal-name {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 22px;
+            font-size: clamp(20px, 5vw, 22px);
             font-weight: 700;
             margin-bottom: 5px;
         }
@@ -1197,7 +1691,7 @@
 
         .modal-stat-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 22px;
+            font-size: clamp(18px, 5vw, 22px);
             font-weight: 700;
             color: var(--primary);
         }
@@ -1291,205 +1785,376 @@
         .btn:hover {
             transform: translateY(-2px);
         }
+
+        /* ============================================
+           DESKTOP SIDEBAR
+           ============================================ */
+        @media (min-width: 768px) {
+            .desktop-nav {
+                display: block;
+            }
+            
+            .desktop-nav-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 14px 16px;
+                border-radius: 12px;
+                color: var(--text-secondary);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-bottom: 5px;
+            }
+            
+            .desktop-nav-item:hover {
+                background: rgba(0, 212, 170, 0.1);
+                color: var(--primary);
+            }
+            
+            .desktop-nav-item.active {
+                background: var(--gradient-primary);
+                color: var(--secondary);
+            }
+            
+            .desktop-nav-icon {
+                font-size: 20px;
+            }
+            
+            .desktop-nav-label {
+                font-size: 14px;
+                font-weight: 500;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .desktop-nav {
+                display: none;
+            }
+        }
+
+        /* ============================================
+           REDUCED MOTION
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="bg-animation" id="bgAnimation"></div>
+    <!-- LOADER -->
+    <div class="loader-wrapper" id="loaderWrapper">
+        <div class="loader-container">
+            <!-- Background Effects -->
+            <div class="bg-grid"></div>
+            <div class="bg-particles" id="bgParticles"></div>
 
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-top">
-                <div class="logo">
-                    <div class="logo-icon">🎾</div>
-                    <span class="logo-text">LIGA PADEL PRO</span>
+            <!-- Enter Animation -->
+            <div class="enter-animation" id="enterAnimation">
+                <div class="enter-logo">🎾</div>
+            </div>
+
+            <!-- Main Logo -->
+            <div class="main-logo">
+                <div class="logo-icon">🎾</div>
+                <div class="logo-text">LIGA PADEL PRO</div>
+                <div class="logo-subtitle">EA Sports Style</div>
+            </div>
+
+            <!-- Sponsor Carousel -->
+            <div class="sponsor-container">
+                <!-- Sponsor 1: TechSports -->
+                <div class="sponsor-slide sponsor-1 active" data-index="0">
+                    <div class="sponsor-logo">⚡</div>
+                    <div class="sponsor-name">TechSports</div>
+                    <div class="sponsor-tagline">Tecnología que impulsa tu juego</div>
+                    <div class="sponsor-industry">Tecnología Deportiva</div>
                 </div>
-                <div class="header-actions">
-                    <button class="icon-btn" onclick="showNotifications()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                        </svg>
-                    </button>
-                    <button class="icon-btn" onclick="showSettings()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                        </svg>
-                    </button>
+
+                <!-- Sponsor 2: ProGear Elite -->
+                <div class="sponsor-slide sponsor-2" data-index="1">
+                    <div class="sponsor-logo">🏆</div>
+                    <div class="sponsor-name">ProGear Elite</div>
+                    <div class="sponsor-tagline">Equipamiento de campeones</div>
+                    <div class="sponsor-industry">Equipamiento Deportivo</div>
+                </div>
+
+                <!-- Sponsor 3: FitNutrition -->
+                <div class="sponsor-slide sponsor-3" data-index="2">
+                    <div class="sponsor-logo">💪</div>
+                    <div class="sponsor-name">FitNutrition</div>
+                    <div class="sponsor-tagline">Nutrición para atletas de élite</div>
+                    <div class="sponsor-industry">Nutrición Deportiva</div>
+                </div>
+
+                <!-- Sponsor 4: StreamPlay -->
+                <div class="sponsor-slide sponsor-4" data-index="3">
+                    <div class="sponsor-logo">📺</div>
+                    <div class="sponsor-name">StreamPlay</div>
+                    <div class="sponsor-tagline">Transmite tu pasión en vivo</div>
+                    <div class="sponsor-industry">Streaming Deportivo</div>
+                </div>
+
+                <!-- Sponsor 5: CourtMaster -->
+                <div class="sponsor-slide sponsor-5" data-index="4">
+                    <div class="sponsor-logo">🏟️</div>
+                    <div class="sponsor-name">CourtMaster</div>
+                    <div class="sponsor-tagline">Gestión inteligente de pistas</div>
+                    <div class="sponsor-industry">Gestión Deportiva</div>
                 </div>
             </div>
-            <div class="league-info">
-                <span class="league-name">Pro Division // Grupo A</span>
-                <span class="season-badge">Temporada 2024</span>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-glow"></div>
+                </div>
+                <div class="progress-text">
+                    <span>Cargando experiencia...</span>
+                    <span class="progress-percentage" id="progressPercentage">0%</span>
+                </div>
+                <div class="loading-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
             </div>
-        </header>
 
-        <!-- Navigation Tabs -->
-        <nav class="nav-tabs">
-            <div class="nav-tab active" onclick="switchTab('inicio')">Inicio</div>
-            <div class="nav-tab" onclick="switchTab('partidos')">Partidos</div>
-            <div class="nav-tab" onclick="switchTab('clasificacion')">Clasificación</div>
-            <div class="nav-tab" onclick="switchTab('equipos')">Equipos</div>
-            <div class="nav-tab" onclick="switchTab('perfiles')">Perfiles</div>
-        </nav>
+            <!-- Skip Button -->
+            <button class="skip-btn" onclick="skipLoader()">SALTAR</button>
+        </div>
+    </div>
 
-        <!-- Main Content -->
-        <main class="content">
-            <!-- Inicio Section -->
-            <section id="inicio" class="page-section active">
-                <!-- Live Match -->
-                <div class="section-title">Próximos Partidos</div>
-                <div class="live-match-card animate-in">
-                    <div class="live-badge">
-                        <span class="live-dot"></span>
-                        EN VIVO • 18:00
-                    </div>
-                    <div class="match-players">
-                        <div class="match-player">
-                            <div class="match-player-avatar">CR</div>
-                            <span class="match-player-name">Carlos R.</span>
-                            <span class="match-player-position">Revés</span>
-                        </div>
-                        <span class="vs-divider">VS</span>
-                        <div class="match-player">
-                            <div class="match-player-avatar">MS</div>
-                            <span class="match-player-name">Marta S.</span>
-                            <span class="match-player-position">Drive</span>
-                        </div>
-                    </div>
-                    <div class="match-score">
-                        <div class="score-box active">6</div>
-                        <div class="score-box">4</div>
-                    </div>
-                    <div class="match-info">
-                        <span class="match-location">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                            Pista Central
-                        </span>
-                        <button class="btn-reserve" onclick="reserveCourt()">RESERVAR PLAZA</button>
-                    </div>
+    <!-- APP CONTAINER -->
+    <div class="app-container" id="appContainer">
+        <!-- Desktop Sidebar -->
+        <aside class="sidebar desktop-nav">
+            <div class="logo" style="margin-bottom: 30px;">
+                <div class="logo-icon-small">🎾</div>
+                <span class="logo-text-small">LIGA PADEL PRO</span>
+            </div>
+            
+            <nav>
+                <div class="desktop-nav-item active" onclick="switchTab('inicio')">
+                    <span class="desktop-nav-icon">🏠</span>
+                    <span class="desktop-nav-label">Inicio</span>
                 </div>
-
-                <!-- MVP of the Week -->
-                <div class="section-title">MVP de la Semana</div>
-                <div class="mvp-card animate-in delay-1">
-                    <div class="mvp-header">
-                        <div class="mvp-badge">🏆 Jugador Élite</div>
-                    </div>
-                    <div class="mvp-avatar">FS</div>
-                    <div style="margin: 15px 0;">
-                        <div class="mvp-name">Fernando "Smash"</div>
-                        <div class="mvp-nickname">España • Master Pro</div>
-                    </div>
-                    <div class="mvp-stats">
-                        <div class="mvp-stat">
-                            <div class="mvp-stat-value">12</div>
-                            <div class="mvp-stat-label">Total MVP</div>
-                        </div>
-                        <div class="mvp-stat">
-                            <div class="mvp-stat-value">#01</div>
-                            <div class="mvp-stat-label">Clasificación</div>
-                        </div>
-                        <div class="mvp-stat">
-                            <div class="mvp-stat-value">58</div>
-                            <div class="mvp-stat-label">Ganadores</div>
-                        </div>
-                    </div>
+                <div class="desktop-nav-item" onclick="switchTab('partidos')">
+                    <span class="desktop-nav-icon">🎾</span>
+                    <span class="desktop-nav-label">Partidos</span>
                 </div>
-
-                <!-- Quick Stats -->
-                <div class="section-title">Tus Estadísticas</div>
-                <div class="stats-grid animate-in delay-2">
-                    <div class="stat-card">
-                        <div class="stat-icon winners">🎯</div>
-                        <div class="stat-value" id="tirosGanadores">156</div>
-                        <div class="stat-label">Tiros Ganadores</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon errors">⚠️</div>
-                        <div class="stat-value" id="erroresNoForzados">42</div>
-                        <div class="stat-label">Errores No Forzados</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon mvp">👑</div>
-                        <div class="stat-value" id="mvps">8</div>
-                        <div class="stat-label">MVPs</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon matches">📅</div>
-                        <div class="stat-value" id="partidosJugados">45</div>
-                        <div class="stat-label">Partidos Jugados</div>
-                    </div>
+                <div class="desktop-nav-item" onclick="switchTab('clasificacion')">
+                    <span class="desktop-nav-icon">📊</span>
+                    <span class="desktop-nav-label">Clasificación</span>
                 </div>
-            </section>
+                <div class="desktop-nav-item" onclick="switchTab('equipos')">
+                    <span class="desktop-nav-icon">👥</span>
+                    <span class="desktop-nav-label">Equipos</span>
+                </div>
+                <div class="desktop-nav-item" onclick="switchTab('perfiles')">
+                    <span class="desktop-nav-icon">👤</span>
+                    <span class="desktop-nav-label">Perfiles</span>
+                </div>
+            </nav>
+        </aside>
 
-            <!-- Partidos Section -->
-            <section id="partidos" class="page-section">
-                <div class="section-title">Historial de Partidos</div>
-                <div id="matchesList"></div>
-            </section>
-
-            <!-- Clasificación Section -->
-            <section id="clasificacion" class="page-section">
-                <div class="section-title">Tabla de Posiciones</div>
-                <div class="leaderboard-card animate-in">
-                    <div class="leaderboard-header">
-                        <div class="leaderboard-title">
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-top">
+                    <div class="logo">
+                        <div class="logo-icon-small">🎾</div>
+                        <span class="logo-text-small">LIGA PADEL PRO</span>
+                    </div>
+                    <div class="header-actions">
+                        <button class="icon-btn" onclick="showNotifications()" aria-label="Notificaciones">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 20V10M12 20V4M6 20v-6"/>
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                             </svg>
-                            Liga Pro // Grupo A
+                        </button>
+                        <button class="icon-btn" onclick="showSettings()" aria-label="Configuración">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="league-info">
+                    <span class="league-name">Pro Division // Grupo A</span>
+                    <span class="season-badge">Temporada 2024</span>
+                </div>
+            </header>
+
+            <!-- Navigation Tabs -->
+            <nav class="nav-tabs" role="tablist">
+                <div class="nav-tab active" role="tab" aria-selected="true" onclick="switchTab('inicio')">Inicio</div>
+                <div class="nav-tab" role="tab" aria-selected="false" onclick="switchTab('partidos')">Partidos</div>
+                <div class="nav-tab" role="tab" aria-selected="false" onclick="switchTab('clasificacion')">Clasificación</div>
+                <div class="nav-tab" role="tab" aria-selected="false" onclick="switchTab('equipos')">Equipos</div>
+                <div class="nav-tab" role="tab" aria-selected="false" onclick="switchTab('perfiles')">Perfiles</div>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="content">
+                <!-- Inicio Section -->
+                <section id="inicio" class="page-section active" role="tabpanel">
+                    <!-- Live Match -->
+                    <div class="section-title">Próximos Partidos</div>
+                    <div class="live-match-card animate-in">
+                        <div class="live-badge">
+                            <span class="live-dot"></span>
+                            EN VIVO • 18:00
+                        </div>
+                        <div class="match-players">
+                            <div class="match-player">
+                                <div class="match-player-avatar">CR</div>
+                                <span class="match-player-name">Carlos R.</span>
+                                <span class="match-player-position">Revés</span>
+                            </div>
+                            <span class="vs-divider">VS</span>
+                            <div class="match-player">
+                                <div class="match-player-avatar">MS</div>
+                                <span class="match-player-name">Marta S.</span>
+                                <span class="match-player-position">Drive</span>
+                            </div>
+                        </div>
+                        <div class="match-score">
+                            <div class="score-box active">6</div>
+                            <div class="score-box">4</div>
+                        </div>
+                        <div class="match-info">
+                            <span class="match-location">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                Pista Central
+                            </span>
+                            <button class="btn-reserve" onclick="reserveCourt()">RESERVAR PLAZA</button>
                         </div>
                     </div>
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr>
-                                <th>Pos</th>
-                                <th>Equipo</th>
-                                <th>PJ</th>
-                                <th>PG</th>
-                                <th>PP</th>
-                                <th>Pts</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboardBody">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
 
-            <!-- Equipos Section -->
-            <section id="equipos" class="page-section">
-                <div class="section-title">Strike Force - Equipos</div>
-                <div id="teamsList"></div>
-            </section>
+                    <!-- MVP of the Week -->
+                    <div class="section-title">MVP de la Semana</div>
+                    <div class="mvp-card animate-in delay-1">
+                        <div class="mvp-header">
+                            <div class="mvp-badge">🏆 Jugador Élite</div>
+                        </div>
+                        <div class="mvp-avatar">FS</div>
+                        <div style="margin: 15px 0;">
+                            <div class="mvp-name">Fernando "Smash"</div>
+                            <div class="mvp-nickname">España • Master Pro</div>
+                        </div>
+                        <div class="mvp-stats">
+                            <div class="mvp-stat">
+                                <div class="mvp-stat-value">12</div>
+                                <div class="mvp-stat-label">Total MVP</div>
+                            </div>
+                            <div class="mvp-stat">
+                                <div class="mvp-stat-value">#01</div>
+                                <div class="mvp-stat-label">Clasificación</div>
+                            </div>
+                            <div class="mvp-stat">
+                                <div class="mvp-stat-value">58</div>
+                                <div class="mvp-stat-label">Ganadores</div>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Perfiles Section -->
-            <section id="perfiles" class="page-section">
-                <div class="section-title">Directorio de Jugadores</div>
-                
-                <!-- Filter Tabs -->
-                <div class="filter-tabs">
-                    <div class="filter-tab active" onclick="filterPlayers('all')">Todos</div>
-                    <div class="filter-tab" onclick="filterPlayers('male')">Masculino</div>
-                    <div class="filter-tab" onclick="filterPlayers('female')">Femenino</div>
-                    <div class="filter-tab" onclick="filterPlayers('top5')">Top 5</div>
-                </div>
+                    <!-- Quick Stats -->
+                    <div class="section-title">Tus Estadísticas</div>
+                    <div class="stats-grid animate-in delay-2">
+                        <div class="stat-card">
+                            <div class="stat-icon winners">🎯</div>
+                            <div class="stat-value" id="tirosGanadores">156</div>
+                            <div class="stat-label">Tiros Ganadores</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon errors">⚠️</div>
+                            <div class="stat-value" id="erroresNoForzados">42</div>
+                            <div class="stat-label">Errores No Forzados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon mvp">👑</div>
+                            <div class="stat-value" id="mvps">8</div>
+                            <div class="stat-label">MVPs</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon matches">📅</div>
+                            <div class="stat-value" id="partidosJugados">45</div>
+                            <div class="stat-label">Partidos Jugados</div>
+                        </div>
+                    </div>
+                </section>
 
-                <div class="players-grid" id="playersGrid">
-                    <!-- Player cards will be inserted here -->
-                </div>
-            </section>
+                <!-- Partidos Section -->
+                <section id="partidos" class="page-section" role="tabpanel">
+                    <div class="section-title">Historial de Partidos</div>
+                    <div id="matchesList"></div>
+                </section>
+
+                <!-- Clasificación Section -->
+                <section id="clasificacion" class="page-section" role="tabpanel">
+                    <div class="section-title">Tabla de Posiciones</div>
+                    <div class="leaderboard-card animate-in">
+                        <div class="leaderboard-header">
+                            <div class="leaderboard-title">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 20V10M12 20V4M6 20v-6"/>
+                                </svg>
+                                Liga Pro // Grupo A
+                            </div>
+                        </div>
+                        <table class="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Pos</th>
+                                    <th>Equipo</th>
+                                    <th>PJ</th>
+                                    <th>PG</th>
+                                    <th>PP</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboardBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Equipos Section -->
+                <section id="equipos" class="page-section" role="tabpanel">
+                    <div class="section-title">Strike Force - Equipos</div>
+                    <div id="teamsList"></div>
+                </section>
+
+                <!-- Perfiles Section -->
+                <section id="perfiles" class="page-section" role="tabpanel">
+                    <div class="section-title">Directorio de Jugadores</div>
+                    
+                    <!-- Filter Tabs -->
+                    <div class="filter-tabs">
+                        <div class="filter-tab active" onclick="filterPlayers('all')">Todos</div>
+                        <div class="filter-tab" onclick="filterPlayers('male')">Masculino</div>
+                        <div class="filter-tab" onclick="filterPlayers('female')">Femenino</div>
+                        <div class="filter-tab" onclick="filterPlayers('top5')">Top 5</div>
+                    </div>
+
+                    <div class="players-grid" id="playersGrid"></div>
+                </section>
+            </div>
         </main>
 
         <!-- Floating Action Button -->
-        <div class="fab" onclick="createNewMatch()">
+        <div class="fab" onclick="createNewMatch()" aria-label="Nuevo Partido">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="12" y1="5" x2="12" y2="19"/>
                 <line x1="5" y1="12" x2="19" y2="12"/>
@@ -1497,36 +2162,36 @@
         </div>
 
         <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <div class="nav-item active" onclick="navigateTo('home')">
+        <nav class="bottom-nav" role="navigation">
+            <div class="nav-item active" onclick="navigateTo('home')" role="button" tabindex="0">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Inicio</span>
             </div>
-            <div class="nav-item" onclick="navigateTo('matches')">
+            <div class="nav-item" onclick="navigateTo('matches')" role="button" tabindex="0">
                 <span class="nav-icon">🎾</span>
                 <span class="nav-label">Partidos</span>
             </div>
-            <div class="nav-item" onclick="navigateTo('teams')">
+            <div class="nav-item" onclick="navigateTo('teams')" role="button" tabindex="0">
                 <span class="nav-icon">👥</span>
                 <span class="nav-label">Equipos</span>
             </div>
-            <div class="nav-item" onclick="navigateTo('stats')">
+            <div class="nav-item" onclick="navigateTo('stats')" role="button" tabindex="0">
                 <span class="nav-icon">📊</span>
                 <span class="nav-label">Stats</span>
             </div>
-            <div class="nav-item" onclick="navigateTo('profile')">
+            <div class="nav-item" onclick="navigateTo('profile')" role="button" tabindex="0">
                 <span class="nav-icon">👤</span>
                 <span class="nav-label">Perfil</span>
             </div>
         </nav>
 
         <!-- Toast Notification -->
-        <div class="toast" id="toast">Acción completada</div>
+        <div class="toast" id="toast" role="alert" aria-live="polite">Acción completada</div>
 
         <!-- Player Modal -->
-        <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
             <div class="modal">
-                <button class="modal-close" onclick="closeModal()">×</button>
+                <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">×</button>
                 <div class="modal-header">
                     <div class="modal-avatar" id="modalAvatar">
                         <img src="" alt="Player">
@@ -1534,9 +2199,7 @@
                     <h2 class="modal-name" id="modalName"></h2>
                     <p class="modal-nickname" id="modalNickname"></p>
                 </div>
-                <div class="modal-body" id="modalBody">
-                    <!-- Content will be inserted here -->
-                </div>
+                <div class="modal-body" id="modalBody"></div>
                 <div class="modal-actions">
                     <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
                     <button class="btn btn-primary" onclick="challengePlayer()">Desafiar</button>
@@ -1546,14 +2209,28 @@
     </div>
 
     <script>
-        // Data
+        // ============================================
+        // LOADER CONFIGURATION
+        // ============================================
+        const LOADER_DURATION = 10000;
+        const SPONSOR_COUNT = 5;
+        const SPONSOR_INTERVAL = LOADER_DURATION / SPONSOR_COUNT;
+
+        let currentSponsor = 0;
+        let startTime = null;
+        let animationFrame = null;
+        let sponsorTimeout = null;
+
+        // ============================================
+        // DATA
+        // ============================================
         const leaderboardData = [
-            { pos: 1, name: 'Cyber Smashers', pj: 10, pg: 9, pp: 1, sg: 18, pts: 27 },
-            { pos: 2, name: 'Neon Nets', pj: 10, pg: 7, pp: 3, sg: 14, pts: 21 },
-            { pos: 3, name: 'Dark Volley', pj: 10, pg: 6, pp: 4, sg: 12, pts: 18 },
-            { pos: 4, name: 'Synth Court', pj: 10, pg: 5, pp: 5, sg: 10, pts: 15 },
-            { pos: 5, name: 'Pixel Padel', pj: 10, pg: 3, pp: 7, sg: 6, pts: 9 },
-            { pos: 6, name: 'Void Racquet', pj: 10, pg: 0, pp: 10, sg: 0, pts: 0 }
+            { pos: 1, name: 'Cyber Smashers', pj: 10, pg: 9, pp: 1, pts: 27 },
+            { pos: 2, name: 'Neon Nets', pj: 10, pg: 7, pp: 3, pts: 21 },
+            { pos: 3, name: 'Dark Volley', pj: 10, pg: 6, pp: 4, pts: 18 },
+            { pos: 4, name: 'Synth Court', pj: 10, pg: 5, pp: 5, pts: 15 },
+            { pos: 5, name: 'Pixel Padel', pj: 10, pg: 3, pp: 7, pts: 9 },
+            { pos: 6, name: 'Void Racquet', pj: 10, pg: 0, pp: 10, pts: 0 }
         ];
 
         const teamsData = [
@@ -1571,226 +2248,42 @@
             { id: 5, date: '2024-01-02', rival: 'Andrés López', score: '6-3, 3-6, 6-4', won: true, court: 'Pista 2' }
         ];
 
-        // 10 Player Profiles (5 Male, 5 Female)
         const playersData = [
-            {
-                id: 1,
-                name: 'Carlos Mendoza',
-                nickname: 'The Wall',
-                gender: 'male',
-                age: 28,
-                height: '1.82m',
-                weight: '76kg',
-                hand: 'Diestro',
-                position: 'Drive',
-                level: 4.5,
-                rank: 1,
-                matches: 142,
-                winners: 842,
-                errors: 124,
-                mvps: 32,
-                winRate: 78,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Especialista en defensa y contraataque. Conocido por su capacidad de recuperar bolas imposibles.'
-            },
-            {
-                id: 2,
-                name: 'Valentina Rossi',
-                nickname: 'La Viper',
-                gender: 'female',
-                age: 26,
-                height: '1.72m',
-                weight: '62kg',
-                hand: 'Izquierda',
-                position: 'Revés',
-                level: 4.5,
-                rank: 2,
-                matches: 124,
-                winners: 482,
-                errors: 112,
-                mvps: 18,
-                winRate: 74,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Juego agresivo desde el fondo de pista. Su bandeja es considerada una de las mejores del circuito.'
-            },
-            {
-                id: 3,
-                name: 'Alejandro Galán',
-                nickname: 'El Rey del Smash',
-                gender: 'male',
-                age: 27,
-                height: '1.85m',
-                weight: '79kg',
-                hand: 'Diestro',
-                position: 'Drive',
-                level: 5.0,
-                rank: 3,
-                matches: 156,
-                winners: 920,
-                errors: 98,
-                mvps: 45,
-                winRate: 82,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Potencia pura. Líder en remates ganadores de la temporada. Capitán del equipo nacional.'
-            },
-            {
-                id: 4,
-                name: 'Sofía Méndez',
-                nickname: 'La Estratégica',
-                gender: 'female',
-                age: 29,
-                height: '1.68m',
-                weight: '58kg',
-                hand: 'Diestra',
-                position: 'Drive',
-                level: 4.0,
-                rank: 4,
-                matches: 118,
-                winners: 395,
-                errors: 87,
-                mvps: 15,
-                winRate: 71,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Maestra del juego táctico. Su lectura de partido es excepcional.'
-            },
-            {
-                id: 5,
-                name: 'Marco Vargas',
-                nickname: 'El Toro',
-                gender: 'male',
-                age: 31,
-                height: '1.88m',
-                weight: '85kg',
-                hand: 'Izquierda',
-                position: 'Revés',
-                level: 4.5,
-                rank: 5,
-                matches: 167,
-                winners: 756,
-                errors: 145,
-                mvps: 28,
-                winRate: 69,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Potencia desde el revés. Especialista en viboras y bandejas cruzadas.'
-            },
-            {
-                id: 6,
-                name: 'Lucía Alba',
-                nickname: 'La Relámpago',
-                gender: 'female',
-                age: 24,
-                height: '1.70m',
-                weight: '60kg',
-                hand: 'Diestra',
-                position: 'Drive',
-                level: 4.0,
-                rank: 6,
-                matches: 95,
-                winners: 342,
-                errors: 76,
-                mvps: 12,
-                winRate: 68,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Velocidad y reflejos extraordinarios. La promesa del circuito femenino.'
-            },
-            {
-                id: 7,
-                name: 'Juan Pérez',
-                nickname: 'El Fantasma',
-                gender: 'male',
-                age: 25,
-                height: '1.78m',
-                weight: '72kg',
-                hand: 'Diestro',
-                position: 'Revés',
-                level: 4.0,
-                rank: 7,
-                matches: 108,
-                winners: 445,
-                errors: 92,
-                mvps: 14,
-                winRate: 66,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Juego sutil y engañoso. Sus globos son legendarios en el circuito.'
-            },
-            {
-                id: 8,
-                name: 'Martina Silva',
-                nickname: 'La Hurricane',
-                gender: 'female',
-                age: 27,
-                height: '1.75m',
-                weight: '65kg',
-                hand: 'Izquierda',
-                position: 'Revés',
-                level: 4.5,
-                rank: 8,
-                matches: 132,
-                winners: 467,
-                errors: 103,
-                mvps: 20,
-                winRate: 72,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Dominio total del revés. Su juego de red es impecable.'
-            },
-            {
-                id: 9,
-                name: 'Diego Torres',
-                nickname: 'El Rayo',
-                gender: 'male',
-                age: 23,
-                height: '1.80m',
-                weight: '74kg',
-                hand: 'Diestro',
-                position: 'Drive',
-                level: 3.5,
-                rank: 9,
-                matches: 87,
-                winners: 312,
-                errors: 68,
-                mvps: 9,
-                winRate: 64,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Joven talento con futuro prometedor. Su velocidad de reacción es excepcional.'
-            },
-            {
-                id: 10,
-                name: 'Camila Fernández',
-                nickname: 'La Precisión',
-                gender: 'female',
-                age: 30,
-                height: '1.69m',
-                weight: '61kg',
-                hand: 'Diestra',
-                position: 'Drive',
-                level: 4.0,
-                rank: 10,
-                matches: 145,
-                winners: 398,
-                errors: 85,
-                mvps: 16,
-                winRate: 70,
-                image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png',
-                bio: 'Precisión quirúrgica en cada golpe. Veterana del circuito con experiencia invaluable.'
-            }
+            { id: 1, name: 'Carlos Mendoza', nickname: 'The Wall', gender: 'male', age: 28, height: '1.82m', weight: '76kg', hand: 'Diestro', position: 'Drive', level: 4.5, rank: 1, matches: 142, winners: 842, errors: 124, mvps: 32, winRate: 78, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Especialista en defensa y contraataque.' },
+            { id: 2, name: 'Valentina Rossi', nickname: 'La Viper', gender: 'female', age: 26, height: '1.72m', weight: '62kg', hand: 'Izquierda', position: 'Revés', level: 4.5, rank: 2, matches: 124, winners: 482, errors: 112, mvps: 18, winRate: 74, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Juego agresivo desde el fondo de pista.' },
+            { id: 3, name: 'Alejandro Galán', nickname: 'El Rey del Smash', gender: 'male', age: 27, height: '1.85m', weight: '79kg', hand: 'Diestro', position: 'Drive', level: 5.0, rank: 3, matches: 156, winners: 920, errors: 98, mvps: 45, winRate: 82, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Potencia pura. Líder en remates.' },
+            { id: 4, name: 'Sofía Méndez', nickname: 'La Estratégica', gender: 'female', age: 29, height: '1.68m', weight: '58kg', hand: 'Diestra', position: 'Drive', level: 4.0, rank: 4, matches: 118, winners: 395, errors: 87, mvps: 15, winRate: 71, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Maestra del juego táctico.' },
+            { id: 5, name: 'Marco Vargas', nickname: 'El Toro', gender: 'male', age: 31, height: '1.88m', weight: '85kg', hand: 'Izquierda', position: 'Revés', level: 4.5, rank: 5, matches: 167, winners: 756, errors: 145, mvps: 28, winRate: 69, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Potencia desde el revés.' },
+            { id: 6, name: 'Lucía Alba', nickname: 'La Relámpago', gender: 'female', age: 24, height: '1.70m', weight: '60kg', hand: 'Diestra', position: 'Drive', level: 4.0, rank: 6, matches: 95, winners: 342, errors: 76, mvps: 12, winRate: 68, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Velocidad y reflejos extraordinarios.' },
+            { id: 7, name: 'Juan Pérez', nickname: 'El Fantasma', gender: 'male', age: 25, height: '1.78m', weight: '72kg', hand: 'Diestro', position: 'Revés', level: 4.0, rank: 7, matches: 108, winners: 445, errors: 92, mvps: 14, winRate: 66, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Juego sutil y engañoso.' },
+            { id: 8, name: 'Martina Silva', nickname: 'La Hurricane', gender: 'female', age: 27, height: '1.75m', weight: '65kg', hand: 'Izquierda', position: 'Revés', level: 4.5, rank: 8, matches: 132, winners: 467, errors: 103, mvps: 20, winRate: 72, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Dominio total del revés.' },
+            { id: 9, name: 'Diego Torres', nickname: 'El Rayo', gender: 'male', age: 23, height: '1.80m', weight: '74kg', hand: 'Diestro', position: 'Drive', level: 3.5, rank: 9, matches: 87, winners: 312, errors: 68, mvps: 9, winRate: 64, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Joven talento prometedor.' },
+            { id: 10, name: 'Camila Fernández', nickname: 'La Precisión', gender: 'female', age: 30, height: '1.69m', weight: '61kg', hand: 'Diestra', position: 'Drive', level: 4.0, rank: 10, matches: 145, winners: 398, errors: 85, mvps: 16, winRate: 70, image: 'https://image.qwenlm.ai/public_source/3019b707-47c5-4a40-8865-1b2dea189881/1f8d76d59-4841-470b-b807-5ec036f4b0c4.png', bio: 'Precisión quirúrgica en cada golpe.' }
         ];
 
-        // Initialize
+        // ============================================
+        // INITIALIZATION
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
-            loadLeaderboard();
-            loadTeams();
-            loadMatches();
-            loadPlayers(playersData);
-            updateStats();
+            
+            // Show loader after enter animation
+            setTimeout(() => {
+                document.getElementById('enterAnimation').classList.add('hidden');
+                setTimeout(() => {
+                    startLoader();
+                }, 500);
+            }, 2000);
         });
 
-        // Create Background Particles
+        // ============================================
+        // LOADER FUNCTIONS
+        // ============================================
         function createParticles() {
-            const container = document.getElementById('bgAnimation');
-            for (let i = 0; i < 20; i++) {
+            const container = document.getElementById('bgParticles');
+            for (let i = 0; i < 15; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'bg-particle';
+                particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 15 + 's';
                 particle.style.animationDuration = (15 + Math.random() * 10) + 's';
@@ -1798,7 +2291,85 @@
             }
         }
 
-        // Load Leaderboard
+        function startLoader() {
+            startTime = Date.now();
+            updateProgress();
+            scheduleSponsorChange();
+        }
+
+        function updateProgress() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min((elapsed / LOADER_DURATION) * 100, 100);
+            
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressPercentage').textContent = Math.round(progress) + '%';
+
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index <= currentSponsor);
+            });
+
+            if (progress < 100) {
+                animationFrame = requestAnimationFrame(updateProgress);
+            } else {
+                completeLoader();
+            }
+        }
+
+        function scheduleSponsorChange() {
+            sponsorTimeout = setTimeout(() => {
+                changeSponsor();
+                if (currentSponsor < SPONSOR_COUNT - 1) {
+                    scheduleSponsorChange();
+                }
+            }, SPONSOR_INTERVAL);
+        }
+
+        function changeSponsor() {
+            const slides = document.querySelectorAll('.sponsor-slide');
+            slides[currentSponsor].classList.remove('active');
+            slides[currentSponsor].classList.add('exit');
+            
+            currentSponsor = (currentSponsor + 1) % SPONSOR_COUNT;
+            
+            setTimeout(() => {
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentSponsor);
+                    slide.classList.remove('exit');
+                });
+            }, 400);
+        }
+
+        function completeLoader() {
+            cancelAnimationFrame(animationFrame);
+            clearTimeout(sponsorTimeout);
+            
+            document.getElementById('loaderWrapper').classList.add('hidden');
+            
+            setTimeout(() => {
+                document.getElementById('loaderWrapper').style.display = 'none';
+                document.getElementById('appContainer').classList.add('loaded');
+                loadAppData();
+            }, 500);
+        }
+
+        function skipLoader() {
+            cancelAnimationFrame(animationFrame);
+            clearTimeout(sponsorTimeout);
+            completeLoader();
+        }
+
+        // ============================================
+        // APP DATA LOADING
+        // ============================================
+        function loadAppData() {
+            loadLeaderboard();
+            loadTeams();
+            loadMatches();
+            loadPlayers(playersData);
+            updateStats();
+        }
+
         function loadLeaderboard() {
             const tbody = document.getElementById('leaderboardBody');
             tbody.innerHTML = leaderboardData.map(team => `
@@ -1818,7 +2389,6 @@
             `).join('');
         }
 
-        // Load Teams
         function loadTeams() {
             const container = document.getElementById('teamsList');
             container.innerHTML = teamsData.map((team, index) => `
@@ -1849,7 +2419,6 @@
             `).join('');
         }
 
-        // Load Matches
         function loadMatches() {
             const container = document.getElementById('matchesList');
             container.innerHTML = matchesData.map((match, index) => `
@@ -1881,11 +2450,10 @@
             `).join('');
         }
 
-        // Load Players
         function loadPlayers(players) {
             const grid = document.getElementById('playersGrid');
             grid.innerHTML = players.map((player, index) => `
-                <div class="player-card ${player.gender} animate-in" style="animation-delay: ${index * 0.05}s" onclick="openPlayerModal(${player.id})">
+                <div class="player-card ${player.gender} animate-in" style="animation-delay: ${index * 0.05}s" onclick="openPlayerModal(${player.id})" role="button" tabindex="0">
                     <div class="player-card-header">
                         <div class="player-card-rank ${player.rank === 1 ? '' : player.rank === 2 ? 'silver' : player.rank === 3 ? 'bronze' : ''}">
                             #${player.rank}
@@ -1924,57 +2492,26 @@
             `).join('');
         }
 
-        // Filter Players
-        function filterPlayers(filter) {
-            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-
-            let filtered = playersData;
-
-            switch(filter) {
-                case 'male':
-                    filtered = playersData.filter(p => p.gender === 'male');
-                    break;
-                case 'female':
-                    filtered = playersData.filter(p => p.gender === 'female');
-                    break;
-                case 'top5':
-                    filtered = playersData.filter(p => p.rank <= 5);
-                    break;
-            }
-
-            loadPlayers(filtered);
-        }
-
-        // Update Stats
         function updateStats() {
-            const playerStats = {
-                tirosGanadores: 156,
-                erroresNoForzados: 42,
-                mvps: 8,
-                partidosJugados: 45
-            };
-
+            const playerStats = { tirosGanadores: 156, erroresNoForzados: 42, mvps: 8, partidosJugados: 45 };
             document.getElementById('tirosGanadores').textContent = playerStats.tirosGanadores;
             document.getElementById('erroresNoForzados').textContent = playerStats.erroresNoForzados;
             document.getElementById('mvps').textContent = playerStats.mvps;
             document.getElementById('partidosJugados').textContent = playerStats.partidosJugados;
         }
 
-        // Helper Functions
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
-        }
-
-        function getInitials(name) {
-            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-        }
-
-        // Navigation
+        // ============================================
+        // NAVIGATION
+        // ============================================
         function switchTab(tab) {
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            document.querySelectorAll('.desktop-nav-item').forEach(i => i.classList.remove('active'));
+            
             event.target.classList.add('active');
+            event.target.setAttribute('aria-selected', 'true');
 
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.getElementById(tab).classList.add('active');
@@ -1988,7 +2525,22 @@
             showToast(`Navegando a ${page}`);
         }
 
-        // Player Modal
+        function filterPlayers(filter) {
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let filtered = playersData;
+            switch(filter) {
+                case 'male': filtered = playersData.filter(p => p.gender === 'male'); break;
+                case 'female': filtered = playersData.filter(p => p.gender === 'female'); break;
+                case 'top5': filtered = playersData.filter(p => p.rank <= 5); break;
+            }
+            loadPlayers(filtered);
+        }
+
+        // ============================================
+        // MODAL FUNCTIONS
+        // ============================================
         function openPlayerModal(playerId) {
             const player = playersData.find(p => p.id === playerId);
             if (!player) return;
@@ -2001,108 +2553,67 @@
             document.getElementById('modalBody').innerHTML = `
                 <div class="modal-section">
                     <h4 class="modal-section-title">Información Personal</h4>
-                    <div class="info-row">
-                        <span class="info-label">Edad</span>
-                        <span class="info-value">${player.age} años</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Altura</span>
-                        <span class="info-value">${player.height}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Peso</span>
-                        <span class="info-value">${player.weight}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Mano</span>
-                        <span class="info-value">${player.hand}</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Posición</span>
-                        <span class="info-value">${player.position}</span>
-                    </div>
+                    <div class="info-row"><span class="info-label">Edad</span><span class="info-value">${player.age} años</span></div>
+                    <div class="info-row"><span class="info-label">Altura</span><span class="info-value">${player.height}</span></div>
+                    <div class="info-row"><span class="info-label">Peso</span><span class="info-value">${player.weight}</span></div>
+                    <div class="info-row"><span class="info-label">Mano</span><span class="info-value">${player.hand}</span></div>
+                    <div class="info-row"><span class="info-label">Posición</span><span class="info-value">${player.position}</span></div>
                 </div>
-
                 <div class="modal-section">
-                    <h4 class="modal-section-title">Estadísticas de Temporada</h4>
+                    <h4 class="modal-section-title">Estadísticas</h4>
                     <div class="modal-grid">
-                        <div class="modal-stat ${player.gender}">
-                            <div class="modal-stat-value">${player.matches}</div>
-                            <div class="modal-stat-label">Partidos</div>
-                        </div>
-                        <div class="modal-stat ${player.gender}">
-                            <div class="modal-stat-value">${player.winners}</div>
-                            <div class="modal-stat-label">Ganadores</div>
-                        </div>
-                        <div class="modal-stat ${player.gender}">
-                            <div class="modal-stat-value">${player.errors}</div>
-                            <div class="modal-stat-label">Errores</div>
-                        </div>
-                        <div class="modal-stat ${player.gender}">
-                            <div class="modal-stat-value">${player.mvps}</div>
-                            <div class="modal-stat-label">MVPs</div>
-                        </div>
+                        <div class="modal-stat ${player.gender}"><div class="modal-stat-value">${player.matches}</div><div class="modal-stat-label">Partidos</div></div>
+                        <div class="modal-stat ${player.gender}"><div class="modal-stat-value">${player.winners}</div><div class="modal-stat-label">Ganadores</div></div>
+                        <div class="modal-stat ${player.gender}"><div class="modal-stat-value">${player.errors}</div><div class="modal-stat-label">Errores</div></div>
+                        <div class="modal-stat ${player.gender}"><div class="modal-stat-value">${player.mvps}</div><div class="modal-stat-label">MVPs</div></div>
                     </div>
                 </div>
-
                 <div class="modal-section">
-                    <h4 class="modal-section-title">Progreso de Temporada</h4>
+                    <h4 class="modal-section-title">Progreso</h4>
                     <div class="progress-container">
-                        <div class="progress-label">
-                            <span>Nivel Actual</span>
-                            <span>${player.level} / 5.0</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${(player.level / 5) * 100}%"></div>
-                        </div>
+                        <div class="progress-label"><span>Nivel</span><span>${player.level} / 5.0</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: ${(player.level / 5) * 100}%"></div></div>
                     </div>
                     <div class="progress-container">
-                        <div class="progress-label">
-                            <span>Win Rate</span>
-                            <span>${player.winRate}%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${player.winRate}%"></div>
-                        </div>
+                        <div class="progress-label"><span>Win Rate</span><span>${player.winRate}%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: ${player.winRate}%"></div></div>
                     </div>
-                </div>
-
-                <div class="modal-section">
-                    <h4 class="modal-section-title">Bio del Jugador</h4>
-                    <p style="color: var(--text-secondary); font-size: 12px; line-height: 1.6;">${player.bio}</p>
                 </div>
             `;
 
             document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function challengePlayer() {
-            showToast('¡Desafío enviado! Esperando respuesta...');
+            showToast('¡Desafío enviado!');
             closeModal();
         }
 
-        // Actions
-        function reserveCourt() {
-            showToast('¡Pista reservada con éxito!');
+        // ============================================
+        // ACTIONS
+        // ============================================
+        function reserveCourt() { showToast('¡Pista reservada!'); }
+        function createNewMatch() { showToast('Creando partido...'); }
+        function showNotifications() { showToast('3 notificaciones nuevas'); }
+        function showSettings() { showToast('Configuración'); }
+
+        // ============================================
+        // UTILITIES
+        // ============================================
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
         }
 
-        function createNewMatch() {
-            showToast('Creando nuevo partido...');
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
         }
 
-        function showNotifications() {
-            showToast('3 notificaciones nuevas');
-        }
-
-        function showSettings() {
-            showToast('Abriendo configuración...');
-        }
-
-        // Toast
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -2110,25 +2621,41 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Close modal on overlay click
-        document.getElementById('modalOverlay').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.getElementById('modalOverlay').addEventListener('click', e => {
+            if (e.target === e.currentTarget) closeModal();
         });
 
-        // Keyboard escape to close modal
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', e => {
             if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape' || e.key === 'Enter') skipLoader();
         });
 
-        // Pull to refresh simulation
+        // Touch gestures for skip
         let touchStartY = 0;
-        document.addEventListener('touchstart', e => touchStartY = e.changedTouches[0].screenY);
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
         document.addEventListener('touchend', e => {
-            if (e.changedTouches[0].screenY - touchStartY > 100) {
-                showToast('Actualizando datos...');
-                setTimeout(() => showToast('Datos actualizados'), 1000);
+            const touchEndY = e.changedTouches[0].screenY;
+            if (touchStartY - touchEndY > 100) {
+                skipLoader();
             }
-        });
+        }, { passive: true });
+
+        // Online/Offline detection
+        window.addEventListener('online', () => showToast('Conexión restaurada'));
+        window.addEventListener('offline', () => showToast('Modo sin conexión'));
+
+        // PWA Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                console.log('PWA Ready - Liga Padel Pro');
+            });
+        }
     </script>
 </body>
 </html>
