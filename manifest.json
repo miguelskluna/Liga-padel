@@ -1,0 +1,113 @@
+```json
+{
+  "name": "Liga Padel Pro - Estadísticas de Padel",
+  "short_name": "PadelPro",
+  "description": "Aplicación oficial de la Liga de Padel Profesional. Estadísticas, partidos, jugadores y más.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0F0F1A",
+  "theme_color": "#00D4AA",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "es",
+  "categories": ["sports", "entertainment"],
+  "icons": [
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/home.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/players.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Partidos",
+      "short_name": "Partidos",
+      "description": "Ver historial de partidos",
+      "url": "/index.html?tab=partidos",
+      "icons": [{ "src": "icons/matches.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Clasificación",
+      "short_name": "Ranking",
+      "description": "Ver tabla de posiciones",
+      "url": "/index.html?tab=clasificacion",
+      "icons": [{ "src": "icons/ranking.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Jugadores",
+      "short_name": "Jugadores",
+      "description": "Ver directorio de jugadores",
+      "url": "/index.html?tab=perfiles",
+      "icons": [{ "src": "icons/players.png", "sizes": "96x96" }]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false,
+  "handle_links": "preferred"
+}
